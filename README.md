@@ -1,5 +1,5 @@
 # HalfLife-Calulation
-***
+
 一个计算半衰期的小程序
 
 A calulate tool for half life
