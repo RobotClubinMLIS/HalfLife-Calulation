@@ -1,8 +1,8 @@
-# HalfLife-Calulation
+# HalfLife-Calculation
 
 #### 一个计算半衰期的小程序
 
-#### A calulate tool for half life
+#### A calculate tool for half life
 
 ***
 大家如果对这个APP有任何想说的或者发现了bug，尽管commit，enjoy youself！
