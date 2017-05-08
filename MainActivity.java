@@ -1,7 +1,7 @@
 package com.xuzhu.HalfLifeCalculator;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView mResult;
 
 
+    public String OriginalWeightValue;
+    public String TimeValue;
+    public String LastWeightValue;
+    public String HalfLifeValue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //判断零的出现
+                OriginalWeightValue = originalWeight.getText().toString();
+                TimeValue = time.getText().toString();
+                LastWeightValue = lastWeight.getText().toString();
+                HalfLifeValue = halfLife.getText().toString();
+
+
                 if (!TextUtils.isEmpty(originalWeight.getText().toString())) {
                     originalWeightD = Double.parseDouble(originalWeight.getText().toString());
                     count++;
@@ -68,8 +81,22 @@ public class MainActivity extends AppCompatActivity {
 
                 if (count != 3) {
                     Toast.makeText(MainActivity.this, "输入错误", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    if (type == 0) {
+
+                    if (OriginalWeightValue.equals("0")) {
+                        Toast.makeText(MainActivity.this, "输入错误", Toast.LENGTH_SHORT).show();
+                        result = 0;
+                    } else if (TimeValue.equals("0")) {
+                        Toast.makeText(MainActivity.this, "输入错误", Toast.LENGTH_SHORT).show();
+                        result = 0;
+                    } else if (LastWeightValue.equals("0")) {
+                        Toast.makeText(MainActivity.this, "输入错误", Toast.LENGTH_SHORT).show();
+                        result = 0;
+                    } else if (HalfLifeValue.equals("0")) {
+                        Toast.makeText(MainActivity.this, "输入错误", Toast.LENGTH_SHORT).show();
+                        result = 0;
+                    } else if (type == 0) {
                         result = getOriginalWeight(halfLifeD, timeD, lastWeightD);
                     } else if (type == 1) {
                         result = getTime(halfLifeD, originalWeightD, lastWeightD);
@@ -79,13 +106,17 @@ public class MainActivity extends AppCompatActivity {
                         result = getHalfLife(lastWeightD, timeD, originalWeightD);
                     }
 
+
                     mResult.setText(result + "");
                 }
 
                 count = 0;
             }
         });
+
+
     }
+
 
     //获取原始的重量
     public double getOriginalWeight(double halfLife, double time, double lastWeight) {
@@ -105,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         double temp = ArithmeticUtil.div(lastWeight, originalWeight, SCALE);
         double halfLifeTimes = ArithmeticUtil.div(Math.log(temp), Math.log(0.5), SCALE);
-        double time = ArithmeticUtil.mulWithScale(halfLifeTimes,halfLife,SCALE);
+        double time = ArithmeticUtil.mulWithScale(halfLifeTimes, halfLife, SCALE);
         return time;
 
 //        halfLifeTimes = math.log(lastWeight / originalWeight,0.5)
@@ -130,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public double getHalfLife(double lastWeight, double time, double originalWeight) {
         double div = ArithmeticUtil.div(lastWeight, originalWeight, SCALE);
         double halfLifeTimes = ArithmeticUtil.div(Math.log(div), Math.log(0.5), SCALE);
-        double halfLife = ArithmeticUtil.div(time,halfLifeTimes,SCALE);
+        double halfLife = ArithmeticUtil.div(time, halfLifeTimes, SCALE);
         return halfLife;
 
 //        halfLifeTimes = math.log(lastWeight / originalWeight,0.5)
